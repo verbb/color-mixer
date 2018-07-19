@@ -3,8 +3,9 @@
 # Color Mixer
 A set of Twig filters for modifying hex colors in [Craft](http://buildwithcraft.com/).
 
-**Important:** Make sure you create the ```colormixer``` folder in the plugins directory.
-We've left the folder out to make it easy for anyone wanting to use the plugin as a Git Sub-module!
+# Install 
+Find it in the Craft Plugin Store or simply install via Composer from your command line
+`composer require whoisjuan/craft-color-mixer`
 
 ### Filters
 **hexToHsl**

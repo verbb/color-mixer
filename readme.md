@@ -6,7 +6,7 @@ https://github.com/ethercreative/colormixer
 
 ### Install 
 Find it in the Craft Plugin Store or simply install via Composer from your command line
-`composer require whoisjuan/craft-color-mixer`
+`composer require "whoisjuan/craft-color-mixer:*"`
 
 ### Filters
 **hexToHsl**

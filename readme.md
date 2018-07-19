@@ -3,7 +3,7 @@
 # Color Mixer
 A set of Twig filters for modifying hex colors in [Craft](http://buildwithcraft.com/).
 
-# Install 
+### Install 
 Find it in the Craft Plugin Store or simply install via Composer from your command line
 `composer require whoisjuan/craft-color-mixer`
 

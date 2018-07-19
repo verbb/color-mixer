@@ -1,4 +1,4 @@
-![Color Mixer for Craft CMS](resources/banner.gif)
+![Color Mixer for Craft CMS](icon-logo.png)
 
 # Color Mixer
 A set of Twig filters for modifying hex colors in [Craft](http://buildwithcraft.com/).

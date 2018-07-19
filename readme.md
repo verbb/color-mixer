@@ -1,13 +1,9 @@
-![Color Mixer for Craft CMS](resources/banner.gif)
+![Color Mixer for Craft CMS 3](src/icon.svg)
 
 # Color Mixer
-A set of Twig filters for modifying hex colors in [Craft](http://buildwithcraft.com/).
+A set of Twig filters for modifying hex colors in Craft CMS 3. Ported from the Craft 2 version created by Ether Creative https://github.com/ethercreative/colormixer
 
 ### Install
-Download / clone this repo into ```craft/plugins/colormixer```.
-
-**Important:** Make sure you create the ```colormixer``` folder in the plugins directory.
-We've left the folder out to make it easy for anyone wanting to use the plugin as a Git Sub-module!
 
 ### Filters
 **hexToHsl**
@@ -108,29 +104,8 @@ Returns a string of CSS containing the styling to give an element a background g
 `$amountOrSecondary` defines the amount to lighten or darken the input color (defaults to 10, range is 0..100) or a hex string for the secondary color.
 `$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255. If `$amountOrSecondary` is a hex string, this value is ignored.
 
-## Changelog
-
-### 1.1.1
-- Fixed bug where `gradient` filter would prepend an additional `#` when the `$amountOrSecondary` param is left blank.  
-
-### 1.1.0
-- Added `gradientColors` filter
-- Added `gradient` filter
-
-### 1.0.0
-- Added docs link & Craft releases updates
-- Added plugin branding
-- Bumped version number to 1.0.0
-
-### 0.1.2
-- Initial Release
-- The first full release of ColorMixer for Craft CMS.
-- New features include the ability to specify at what point a color is considered light or dark.
-
 
 ---
-
-Copyright © 2016 Ether Creative <hello@ethercreative.co.uk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

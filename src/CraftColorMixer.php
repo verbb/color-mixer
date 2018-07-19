@@ -130,49 +130,6 @@ class CraftColorMixer extends Plugin
             __METHOD__
         );
     }
-
-    public function getName()
-	{
-		return Craft::t('Color Mixer');
-	}
-	public function getVersion()
-	{
-		return '1.1.1';
-	}
-	public function getSchemaVersion()
-	{
-		return '0.0.1';
-	}
-	public function getDeveloper()
-	{
-		return 'whoisjuan, based on the work of Ether Creative';
-	}
-	public function getDeveloperUrl()
-	{
-		return 'https://www.whoisjuan.me';
-	}
-	public function getDocumentationUrl()
-	{
-		return 'https://github.com/ethercreative/ColorMixer/blob/master/readme.md';
-	}
-	public function getDescription()
-	{
-		return 'A set of Twig filters for modifying HEX colors in Craft 3';
-	}
-	public function hasCpSection()
-	{
-		return false;
-	}
-	public function addTwigExtension()
-	{
-		Craft::import('plugins.colormixer.twigextensions.ColorMixerTwigExtension');
-		return new ColorMixerTwigExtension();
-	}
-	public function getReleaseFeedUrl()
-	{
-		return 'https://raw.githubusercontent.com/whoisjuan/craft-color-mixer/master/CHANGELOG.md';
-	}
-
     // Protected Methods
     // =========================================================================
 

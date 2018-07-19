@@ -2,7 +2,7 @@
     "name": "whoisjuan/craft-color-mixer",
     "description": "A set of Twig filters for modifying hex colors in Craft 3. Ported from https://github.com/ethercreative/colormixer",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "keywords": [
         "craft",
         "cms",

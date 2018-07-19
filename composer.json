@@ -1,0 +1,40 @@
+{
+    "name": "whoisjuan/craft-color-mixer",
+    "description": "A set of Twig filters for modifying hex colors in Craft 3. Ported from https://github.com/ethercreative/colormixer",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "craft color mixer"
+    ],
+    "support": {
+        "docs": "https://github.com/whoisjuan/craft-color-mixer/blob/master/README.md",
+        "issues": "https://github.com/whoisjuan/craft-color-mixer/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "whoisjuan",
+            "homepage": "https://www.whoisjuan.me"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "whoisjuan\\craftcolormixer\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Craft Color Mixer",
+        "handle": "craft-color-mixer",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/whoisjuan/craft-color-mixer/master/CHANGELOG.md",
+        "class": "whoisjuan\\craftcolormixer\\CraftColorMixer"
+    }
+}

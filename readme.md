@@ -1,4 +1,4 @@
-![Color Mixer for Craft CMS](icon.png | width=300)
+![Color Mixer for Craft CMS](icon.png) <!-- .element height="50%" width="50%" -->
 
 # Color Mixer
 A set of Twig filters for modifying hex colors in Craft CMS 3. Ported from the original plugin for Craft 2 by Ether Creative. 

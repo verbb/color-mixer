@@ -460,7 +460,7 @@ class CraftColorMixerTwigExtension extends \Twig_Extension
 		if( strlen($color) == 3 ) {
 			$color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2];
 		} else if( strlen($color) != 6 ) {
-			throw new Exception("HEX color needs to be 6 or 3 digits long, received: " . $color);
+			throw new \Exception("HEX color needs to be 6 or 3 digits long, received: " . $color);
 		}
 		return $color;
 	}

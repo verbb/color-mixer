@@ -369,6 +369,12 @@ class CraftColorMixerTwigExtension extends \Twig_Extension
 		$hex[0] = dechex( $rgb['R'] );
 		$hex[1] = dechex( $rgb['G'] );
 		$hex[2] = dechex( $rgb['B'] );
+		
+		// Make sure we get 2 digits for decimals
+		$hex[0] = (strlen("".$hex[0])===1) ? "0".$hex[0]:$hex[0];
+		$hex[1] = (strlen("".$hex[1])===1) ? "0".$hex[1]:$hex[1];
+		$hex[2] = (strlen("".$hex[2])===1) ? "0".$hex[2]:$hex[2];
+		
 		return '#'.implode( '', $hex );
 	}
 	/**

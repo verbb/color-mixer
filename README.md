@@ -1,5 +1,13 @@
 # Color Mixer Plugin for Craft CMS
-A set of Twig filters for modifying hex colors in Craft CMS.
+A set of Twig filters for modifying hex colors in Craft CMS. Use Twig to modify and manipulate color values and generate valid CSS that can be used in your templates.
+
+This plugin allows you to use simple Twig filters to:
+- Transform color values from HEX to RGB
+- Transform color values fromTraHEX to HSL
+- Lighten and darken colors by a set amount.
+- Determine if a color is considered dark or light.
+- Get a complementary color
+- Generate gradients.
 
 ## Installation
 You can install Color Mixer via the plugin store, or through Composer.

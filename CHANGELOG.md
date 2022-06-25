@@ -1,9 +1,12 @@
-# Craft Color Mixer Changelog
+# Changelog
 
-All notable changes to this project will be documented in this file.
+## 2.0.0 - 2022-06-25
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+### Changed
+- Migration to `verbb/color-mixer`.
+- Now requires Craft 3.7+.
 
 ## 1.0.0 - 2018-07-19
+
 ### Added
 - Initial release

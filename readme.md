@@ -1,118 +1,125 @@
-![Color Mixer for Craft CMS](icon.png) <!-- .element height="30%" width="30%" -->
+# Color Mixer Plugin for Craft CMS
+A set of Twig filters for modifying hex colors in Craft CMS.
 
-# Color Mixer
-A set of Twig filters for modifying hex colors in Craft CMS 3. Ported from the original plugin for Craft 2 by Ether Creative. 
-https://github.com/ethercreative/colormixer
+## Installation
+You can install Color Mixer via the plugin store, or through Composer.
 
-### Install 
-Find it in the Craft Plugin Store or simply install via Composer from your command line
-`composer require "whoisjuan/craft-color-mixer:*"`
+### Craft Plugin Store
+To install **Color Mixer**, navigate to the _Plugin Store_ section of your Craft control panel, search for `Color Mixer`, and click the _Try_ button.
 
-### Filters
-**hexToHsl**
+### Composer
+You can also add the package to your project using Composer.
 
-```twig
-hexToHsl
+1. Open your terminal and go to your Craft project:
 
-hexToHsl($returnAsArray)
-```
+        cd /path/to/project
 
-Converts a hex to HSL. Returns a comma separated string unless ```$returnAsArray``` is set to true.
+2. Then tell Composer to load the plugin:
+    
+        composer require verbb/color-mixer
 
+3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Color Mixer.
 
-**hexToRgb**
+## Usage
+Color Mixer provide a number of Twig filters to use
 
-```twig
-hexToRgb
-
-hexToRgb($returnAsArray)
-```
-
-Converts a hex to RGB. Returns a comma separated string unless ```$returnAsArray``` is set to true.
-
-
-**darken**
+### `hexToHsl`
+Converts a hex to HSL. Returns a comma separated string unless `$returnAsArray` is set to true.
 
 ```twig
-darken($amount)
+{{ '#3533b9' | hexToHsl }}
+
+{% set hsl = '#3533b9' | hexToHsl($returnAsArray) %}
 ```
 
-Darkens a hex by the ```$amount``` percentage.
 
-
-**lighten**
+### `hexToRgb`
+Converts a hex to RGB. Returns a comma separated string unless `$returnAsArray` is set to true.
 
 ```twig
-lighten($amount)
+{{ '#3533b9' | hexToRgb }}
+
+{% set rgb = '#3533b9' | hexToRgb($returnAsArray) %}
 ```
 
-Lightens a hex by the ```$amount``` percentage.
 
-
-**mix**
+### `darken`
+Darkens a hex by the `$amount` percentage.
 
 ```twig
-mix($hexToMixWith, $amount)
+{{ '#3533b9' | darken($amount) }}
 ```
 
-Mixes two hexes together. The ```$amount``` to mix the colors together by is set between -100..0..+100, where 0 is an equal amount of both colors. ```$amount``` defaults to 0 if not set.
 
-
-**isLight**
+### `lighten`
+Lightens a hex by the `$amount` percentage.
 
 ```twig
-isLight($threshold)
+{{ '#3533b9' | lighten($amount) }}
 ```
 
+
+### `mix`
+Mixes two hexes together. The `$amount` to mix the colors together by is set between -100..0..+100, where 0 is an equal amount of both colors. `$amount` defaults to 0 if not set.
+
+```twig
+{{ '#3533b9' | mix($hexToMixWith, $amount) }}
+```
+
+
+### `isLight`
 Returns true if the color is considered "light", false if not. The *optional* `$threshold` value determines at what point the color is considered light. Anything above this value is considered light. Defaults to 130, range is 0..255.
 
-
-**isDark**
-
 ```twig
-isDark($threshold)
+{{ '#3533b9' | isLight($threshold) }}
 ```
 
+
+### `isDark`
 Returns true if the color is considered "dark", false if not. The *optional* `$threshold` value determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255.
 
-
-**complementary**
-
 ```twig
-complementary
+{{ '#3533b9' | isDark($threshold) }}
 ```
 
+
+### `complementary`
 Returns the complimentary color.
 
-
-**gradientColors**
-
 ```twig
-gradientColors($amount, $threshold)
+{{ '#3533b9' | complementary }}
 ```
 
-Returns an array with the input color and a slightly darkened / lightened counterpart (depending on whether the input color is light or dark). Both parameters are *optional*.  
+
+### `gradientColors`
+Returns an array with the input color and a slightly darkened / lightened counterpart (depending on whether the input color is light or dark). Both parameters are *optional*.
 `$amount` defines how much lighter or darker the color should be made (defaults to 10, range is 0..100).  
 `$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255.
 
-
-**gradient**
-
 ```twig
-gradient($direction, $amountOrSecondary, $threshold)
+{% set garadient = '#3533b9' | gradientColors($amount, $threshold) %}
 ```
 
+
+### `gradient`
 Returns a string of CSS containing the styling to give an element a background gradient. All parameters are *optional*.  
-`$direction` defines the direction of the gradient. Must be either: `horizontal` (→), `vertical` (↓), `diagonalDown` (↘), `diagonalUp` (↗), `radial` (○). Defaults to `horizontal`.  
+`$direction` defines the direction of the gradient. Must be either: `horizontal` (→), `vertical` (↓), `diagonalDown` (↘), `diagonalUp` (↗), `radial` (○). Defaults to `horizontal`. 
 `$amountOrSecondary` defines the amount to lighten or darken the input color (defaults to 10, range is 0..100) or a hex string for the secondary color.
 `$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255. If `$amountOrSecondary` is a hex string, this value is ignored.
 
-The MIT License (MIT)
+```twig
+{{ '#3533b9' | gradient($direction, $amountOrSecondary, $threshold) }}
+```
 
-Copyright (c) 2018 whoisjuan
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+## Credits
+Based on [Color Mixer](https://github.com/ethercreative/colormixer) for Craft 2.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+## Show your Support
+Color Mixer is licensed under the MIT license, meaning it will always be free and open source – we love free stuff! If you'd like to show your support to the plugin regardless, [Sponsor](https://github.com/sponsors/verbb) development.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<h2></h2>
+
+<a href="https://verbb.io" target="_blank">
+    <img width="100" src="https://verbb.io/assets/img/verbb-pill.svg">
+</a>

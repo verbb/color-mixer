@@ -1,8 +1,8 @@
 {
-    "name": "whoisjuan/craft-color-mixer",
+    "name": "verbb/color-mixer",
     "description": "A set of Twig filters for modifying hex colors in Craft 3. Ported from https://github.com/ethercreative/colormixer",
     "type": "craft-plugin",
-    "version": "1.0.9",
+    "version": "2.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -11,30 +11,40 @@
         "craft color mixer"
     ],
     "support": {
-        "docs": "https://github.com/whoisjuan/craft-color-mixer/blob/master/README.md",
-        "issues": "https://github.com/whoisjuan/craft-color-mixer/issues"
+        "email": "support@verbb.io",
+        "issues": "https://github.com/verbb/color-mixer/issues?state=open",
+        "source": "https://github.com/verbb/color-mixer",
+        "docs": "https://github.com/verbb/color-mixer",
+        "rss": "https://github.com/verbb/color-mixer/commits/v2.atom"
     },
     "license": "MIT",
     "authors": [
         {
+            "name": "Verbb",
+            "homepage": "http://verbb.io"
+        },
+        {
             "name": "whoisjuan",
             "homepage": "https://www.whoisjuan.me"
+        },
+        {
+            "name": "Ether Creative",
+            "homepage": "https://ethercreative.co.uk"
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0-RC1"
+        "craftcms/cms": "^3.7.0",
+        "verbb/base": "^1.0.2"
     },
     "autoload": {
         "psr-4": {
-          "whoisjuan\\craftcolormixer\\": "src/"
+          "verbb\\colormixer\\": "src/"
         }
     },
     "extra": {
-        "name": "Craft Color Mixer",
+        "name": "Color Mixer",
         "handle": "craft-color-mixer",
-        "hasCpSettings": false,
-        "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/whoisjuan/craft-color-mixer/master/CHANGELOG.md",
-        "class": "whoisjuan\\craftcolormixer\\CraftColorMixer"
+        "changelogUrl": "https://raw.githubusercontent.com/verbb/color-mixer/craft-3/CHANGELOG.md",
+        "class": "verbb\\colormixer\\ColorMixer"
     }
 }

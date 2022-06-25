@@ -306,6 +306,8 @@ When converting to an array, do note the array keys are now **lowercase**.
 {{ '#ff00ff' | toRgb }} {# { r: 255, g: 0, b: 255 } #}
 ```
 
+Both `gradientColors` and `gradient` have been removed. These can be easily constructed without the need for Twig filters.
+
 ## Credits
 Based on [Color Mixer](https://github.com/ethercreative/colormixer) for Craft 2.
 

@@ -47,10 +47,6 @@ class Extension extends AbstractExtension
             new TwigFilter('complementary', [$this, 'complementary']),
             new TwigFilter('isLight', [$this, 'isLight']),
             new TwigFilter('isDark', [$this, 'isDark']),
-
-            // Gradients
-            new TwigFilter('gradientColors', [$this, 'gradientColors']),
-            new TwigFilter('gradient', [$this, 'gradient']),
         ];
     }
 
@@ -185,48 +181,6 @@ class Extension extends AbstractExtension
     {
         return Factory::init($value)->isDark();
     }
-
-    public function gradient($value, string $direction = 'horizontal', mixed $colors = []): string
-    {
-        $color = Factory::init($value);
-
-        if (!is_array($colors)) {
-            $colors = [$colors];
-        }
-
-        foreach ($colors as $k => $v) {
-            $colors[$k] = Factory::init($v);
-        }
-
-        array_unshift($colors, $color);
-
-        $css = [];
-        $radial = false;
-
-        if ($direction === 'horizontal') {
-            $angle = 'to right';
-        } else if ($direction === 'diagonalDown') {
-            $angle = '135deg';
-        } else if ($direction === 'diagonalUp') {
-            $angle = '45deg';
-        } else if ($direction === 'radial') {
-            $angle = 'ellipse at center';
-            $radial = true;
-        } else if ($direction === 'vertical') {
-            $angle = 'to bottom';
-        }
-
-        $css[] = "background-color: {$color->toHex()};";
-        
-        if ($radial) {
-            $css[] = "background: radial-gradient({$angle}, " . implode(', ', $colors) . ");";
-        } else {
-            $css[] = "background-image: linear-gradient({$angle}, " . implode(', ', $colors) . ");";
-        }
-
-        return implode('', $css);
-    }
-
 
 
     // Private Methods

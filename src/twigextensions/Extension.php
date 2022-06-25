@@ -508,12 +508,12 @@ class Extension extends AbstractExtension
     /**
      * Given a Hue, returns corresponding RGB value
      *
-     * @param int $v1
-     * @param int $v2
-     * @param int $vH
+     * @param float $v1
+     * @param float $v2
+     * @param float $vH
      * @return int
      */
-    private static function _hueToRgb(int $v1, int $v2, int $vH)
+    private static function _hueToRgb(float $v1, float $v2, float $vH)
     {
         if ($vH < 0) {
             ++$vH;

@@ -105,7 +105,7 @@ Returns an array with the input color and a slightly darkened / lightened counte
 `$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255.
 
 ```twig
-{% set garadient = '#3533b9' | gradientColors($amount, $threshold) %}
+{% set gradient = '#3533b9' | gradientColors($amount, $threshold) %}
 ```
 
 

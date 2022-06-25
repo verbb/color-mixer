@@ -102,7 +102,7 @@ toRgba: {{ hex | toRgba }}
 Additionally, you might like to strip out the "type" denotions for the color. To explain, refer to the below table:
 
 Type | With Type | Without Type
---- | ---
+--- | --- | ---
 | Hex | `#ff00ff` | `ff00ff`
 | Hexa | `#ff00ff4c` | `ff00ff4c`
 | HSL | `hsl(300, 100%, 50%)` | `300, 100%, 50%`

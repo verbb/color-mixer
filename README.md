@@ -135,105 +135,105 @@ To do this, you can use the `rawColor` Twig filter, after a conversion, or stand
 Saturate by a percentage amount.
 
 ```twig
-{{ '#3533b9' | saturate(20) }} {# #ff00ff #}
+{{ '#ff00ff' | saturate(20) }} {# #ff00ff #}
 ```
 
 #### `desaturate`
 Desaturate by a percentage amount.
 
 ```twig
-{{ '#3533b9' | desaturate(20) }} {# #e61ae6 #}
+{{ '#ff00ff' | desaturate(20) }} {# #e61ae6 #}
 ```
 
 #### `grayscale`
 Get the greyscale value (same as `desaturate(100)`)
 
 ```twig
-{{ '#3533b9' | grayscale }} {# #808080 #}
+{{ '#ff00ff' | grayscale }} {# #808080 #}
 ```
 
 #### `lighten`
 Lighten by a percentage amount.
 
 ```twig
-{{ '#3533b9' | lighten(20) }} {# #ff66ff #}
+{{ '#ff00ff' | lighten(20) }} {# #ff66ff #}
 ```
 
 #### `darken`
 Darken by a percentage amount.
 
 ```twig
-{{ '#3533b9' | darken(20) }} {# #990099 #}
+{{ '#ff00ff' | darken(20) }} {# #990099 #}
 ```
 
 #### `brighten`
 Brighten by a percentage amount.
 
 ```twig
-{{ '#3533b9' | brighten(20) }} {# #ff33ff #}
+{{ '#ff00ff' | brighten(20) }} {# #ff33ff #}
 ```
 
 #### `mix`
 Mix by a percentage amount.
 
 ```twig
-{{ '#3533b9' | mix('#e51717', 20) }} {# #fa05d1 #}
+{{ '#ff00ff' | mix('#e51717', 20) }} {# #fa05d1 #}
 ```
 
 #### `tint`
 Mix color with white by a percentage amount.
 
 ```twig
-{{ '#3533b9' | tint(20) }} {# #ff33ff #}
+{{ '#ff00ff' | tint(20) }} {# #ff33ff #}
 ```
 
 #### `shade`
 Mix color with black by a percentage amount.
 
 ```twig
-{{ '#3533b9' | shade(20) }} {# #cc00cc #}
+{{ '#ff00ff' | shade(20) }} {# #cc00cc #}
 ```
 
 #### `fade`
 Set the absolute opacity of a color by a percentage amount.
 
 ```twig
-{{ '#3533b9' | fade(20) }} {# rgba(255, 0, 255, 0.2) #}
+{{ '#ff00ff' | fade(20) }} {# rgba(255, 0, 255, 0.2) #}
 ```
 
 #### `fadeIn`
 Increase the opacity of a color by a percentage amount.
 
 ```twig
-{{ '#3533b9' | fadeIn(20) }} {# rgba(255, 0, 255, 1) #}
+{{ '#ff00ff' | fadeIn(20) }} {# rgba(255, 0, 255, 1) #}
 ```
 
 #### `fadeOut`
 Decrease the opacity of a color by a percentage amount.
 
 ```twig
-{{ '#3533b9' | fadeOut(20) }} {# rgba(255, 0, 255, 0.8) #}
+{{ '#ff00ff' | fadeOut(20) }} {# rgba(255, 0, 255, 0.8) #}
 ```
 
 #### `complementary`
 Returns the complimentary color.
 
 ```twig
-{{ '#3533b9' | complementary }}
+{{ '#ff00ff' | complementary }}
 ```
 
 #### `isLight`
 Whether a color is considered light.
 
 ```twig
-{{ '#3533b9' | isLight }} {# false #}
+{{ '#ff00ff' | isLight }} {# false #}
 ```
 
 #### `isDark`
 Whether a color is considered dark.
 
 ```twig
-{{ '#3533b9' | isDark }} {# true #}
+{{ '#ff00ff' | isDark }} {# true #}
 ```
 
 ## Upgrading from v1/v2

@@ -2,12 +2,13 @@
 A set of Twig filters for modifying hex colors in Craft CMS. Use Twig to modify and manipulate color values and generate valid CSS that can be used in your templates.
 
 This plugin allows you to use simple Twig filters to:
-- Transform color values from HEX to RGB
-- Transform color values fromTraHEX to HSL
+- Convert color values from Hex, HSL, RGB, RGBA and more
+- Saturate or Desaturate colors by a set amount.
 - Lighten and darken colors by a set amount.
+- Mix, tint and shade colors by a set amount.
+- Fade colors by a set amount.
 - Determine if a color is considered dark or light.
-- Get a complementary color
-- Generate gradients.
+- Get a complementary color.
 
 ## Installation
 You can install Color Mixer via the plugin store, or through Composer.
@@ -214,6 +215,13 @@ Decrease the opacity of a color by a percentage amount.
 {{ '#3533b9' | fadeOut(20) }} {# rgba(255, 0, 255, 0.8) #}
 ```
 
+#### `complementary`
+Returns the complimentary color.
+
+```twig
+{{ '#3533b9' | complementary }}
+```
+
 #### `isLight`
 Whether a color is considered light.
 
@@ -226,43 +234,6 @@ Whether a color is considered dark.
 
 ```twig
 {{ '#3533b9' | isDark }} {# true #}
-```
-
-
-
-
-
-
-
-
-
-
-#### `complementary`
-Returns the complimentary color.
-
-```twig
-{{ '#3533b9' | complementary }}
-```
-
-
-#### `gradientColors`
-Returns an array with the input color and a slightly darkened / lightened counterpart (depending on whether the input color is light or dark). Both parameters are *optional*.
-`$amount` defines how much lighter or darker the color should be made (defaults to 10, range is 0..100).  
-`$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255.
-
-```twig
-{% set garadient = '#3533b9' | gradientColors($amount, $threshold) %}
-```
-
-
-#### `gradient`
-Returns a string of CSS containing the styling to give an element a background gradient. All parameters are *optional*.  
-`$direction` defines the direction of the gradient. Must be either: `horizontal` (→), `vertical` (↓), `diagonalDown` (↘), `diagonalUp` (↗), `radial` (○). Defaults to `horizontal`. 
-`$amountOrSecondary` defines the amount to lighten or darken the input color (defaults to 10, range is 0..100) or a hex string for the secondary color.
-`$threshold` determines at what point the color is considered dark. Anything below or equal to this value is considered dark. Defaults to 130, range is 0..255. If `$amountOrSecondary` is a hex string, this value is ignored.
-
-```twig
-{{ '#3533b9' | gradient($direction, $amountOrSecondary, $threshold) }}
 ```
 
 ## Upgrading from v1/v2

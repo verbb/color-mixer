@@ -2,7 +2,7 @@
     "name": "verbb/color-mixer",
     "description": "A set of Twig filters for modifying hex colors in Craft CMS.",
     "type": "craft-plugin",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -33,8 +33,10 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.7.0",
-        "verbb/base": "^1.0.2"
+        "php": "^8.0.2",
+        "craftcms/cms": "^4.0.0",
+        "verbb/base": "^2.0.0",
+        "ozdemirburak/iris": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +46,7 @@
     "extra": {
         "name": "Color Mixer",
         "handle": "craft-color-mixer",
-        "changelogUrl": "https://raw.githubusercontent.com/verbb/color-mixer/craft-3/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/verbb/color-mixer/craft-4/CHANGELOG.md",
         "class": "verbb\\colormixer\\ColorMixer"
     }
 }

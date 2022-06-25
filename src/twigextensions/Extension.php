@@ -6,19 +6,10 @@ use Twig\Extension\AbstractExtension;
 
 use Exception;
 
+use OzdemirBurak\Iris\Color\Factory;
+
 class Extension extends AbstractExtension
 {
-    // Constants
-    // =========================================================================
-
-    /**
-     * Auto darkens/lightens by 10%.
-     * Set this to FALSE to adjust automatic shade to be between given color
-     * and black (for darken) or white (for lighten)
-     */
-    const DEFAULT_ADJUST = 10;
-
-
     // Public Methods
     // =========================================================================
 
@@ -30,533 +21,237 @@ class Extension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('hexToHsl', [$this, 'hexToHsl']),
-            new TwigFilter('hexToRgb', [$this, 'hexToRgb']),
-            new TwigFilter('darken', [$this, 'darken']),
+            // Conversion
+            new TwigFilter('toHex', [$this, 'toHex']),
+            new TwigFilter('toHexa', [$this, 'toHexa']),
+            new TwigFilter('toHsl', [$this, 'toHsl']),
+            new TwigFilter('toHsla', [$this, 'toHsla']),
+            new TwigFilter('toHsv', [$this, 'toHsv']),
+            new TwigFilter('toRgb', [$this, 'toRgb']),
+            new TwigFilter('toRgba', [$this, 'toRgba']),
+            new TwigFilter('rawColor', [$this, 'rawColor']),
+
+            // Manipulation
+            new TwigFilter('saturate', [$this, 'saturate']),
+            new TwigFilter('desaturate', [$this, 'desaturate']),
+            new TwigFilter('grayscale', [$this, 'grayscale']),
             new TwigFilter('lighten', [$this, 'lighten']),
+            new TwigFilter('darken', [$this, 'darken']),
+            new TwigFilter('brighten', [$this, 'brighten']),
             new TwigFilter('mix', [$this, 'mix']),
+            new TwigFilter('tint', [$this, 'tint']),
+            new TwigFilter('shade', [$this, 'shade']),
+            new TwigFilter('fade', [$this, 'fade']),
+            new TwigFilter('fadeIn', [$this, 'fadeIn']),
+            new TwigFilter('fadeOut', [$this, 'fadeOut']),
+            new TwigFilter('complementary', [$this, 'complementary']),
             new TwigFilter('isLight', [$this, 'isLight']),
             new TwigFilter('isDark', [$this, 'isDark']),
-            new TwigFilter('complementary', [$this, 'complementary']),
+
+            // Gradients
             new TwigFilter('gradientColors', [$this, 'gradientColors']),
             new TwigFilter('gradient', [$this, 'gradient']),
         ];
     }
 
-    /**
-     * Given a HEX string returns a HSL array equivalent.
-     *
-     * @param string $color
-     * @param boolean $returnAsArray
-     * @return array|string
-     * @throws Exception
-     */
-    public function hexToHsl(string $color, bool $returnAsArray = false)
+    public function toHex(string $value, bool $asArray = false)
     {
-        $color = self::_checkHex($color);
+        return $this->_convert('toHex', $value, $asArray);
+    }
 
-        // Convert HEX to DEC
-        $R = hexdec($color[0] . $color[1]);
-        $G = hexdec($color[2] . $color[3]);
-        $B = hexdec($color[4] . $color[5]);
+    public function toHexa(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toHexa', $value, $asArray);
+    }
 
-        $HSL = [];
-        $var_R = ($R / 255);
-        $var_G = ($G / 255);
-        $var_B = ($B / 255);
-        
-        $var_Min = min($var_R, $var_G, $var_B);
-        $var_Max = max($var_R, $var_G, $var_B);
-        $del_Max = $var_Max - $var_Min;
-        $L = ($var_Max + $var_Min) / 2;
+    public function toHsl(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toHsl', $value, $asArray);
+    }
 
-        if ($del_Max == 0) {
-            $H = 0;
-            $S = 0;
-        } else {
-            if ($L < 0.5) {
-                $S = $del_Max / ($var_Max + $var_Min);
-            } else {
-                $S = $del_Max / (2 - $var_Max - $var_Min);
-            }
+    public function toHsla(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toHsla', $value, $asArray);
+    }
 
-            $del_R = ((($var_Max - $var_R) / 6) + ($del_Max / 2)) / $del_Max;
-            $del_G = ((($var_Max - $var_G) / 6) + ($del_Max / 2)) / $del_Max;
-            $del_B = ((($var_Max - $var_B) / 6) + ($del_Max / 2)) / $del_Max;
-            $H = 0.5;
+    public function toHsv(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toHsv', $value, $asArray);
+    }
 
-            if ($var_R == $var_Max) {
-                $H = $del_B - $del_G;
-            } else if ($var_G == $var_Max) {
-                $H = (1 / 3) + $del_R - $del_B;
-            } else if ($var_B == $var_Max) {
-                $H = (2 / 3) + $del_G - $del_R;
-            }
+    public function toRgb(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toRgb', $value, $asArray);
+    }
 
-            if ($H < 0) {
-                $H++;
-            }
+    public function toRgba(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toRgba', $value, $asArray);
+    }
 
-            if ($H > 1) {
-                $H--;
-            }
+    public function rawColor(mixed $value)
+    {
+        if (!is_array($value)) {
+            return str_replace(['#', 'hsl(', 'hsla(', 'hsv(', 'rgb(', 'rgba(', ')'], '', $value);
         }
-
-        $HSL['H'] = ($H * 360);
-        $HSL['S'] = $S;
-        $HSL['L'] = $L;
-
-        return $returnAsArray ? $HSL : implode(",", $HSL);
     }
 
-    /**
-     * Given a HEX string returns a RGB array equivalent.
-     *
-     * @param string $color
-     * @param boolean $returnAsArray
-     * @return array|string
-     * @throws Exception
-     */
-    public static function hexToRgb(string $color, bool $returnAsArray = false)
+    public function saturate(string $value, int $amount = 0)
     {
-        $color = self::_checkHex($color);
-
-        // Convert HEX to DEC
-        $R = hexdec($color[0] . $color[1]);
-        $G = hexdec($color[2] . $color[3]);
-        $B = hexdec($color[4] . $color[5]);
-
-        $RGB['R'] = $R;
-        $RGB['G'] = $G;
-        $RGB['B'] = $B;
-
-        return $returnAsArray ? $RGB : implode(",", $RGB);
+        return Factory::init($value)->saturate($amount);
     }
 
-    /**
-     * Given a HEX value, returns a darker color. If no desired amount provided, then the color halfway between
-     * given HEX and black will be returned.
-     *
-     * @param string $color
-     * @param int $amount
-     * @return string Darker HEX value
-     * @throws Exception
-     */
-    public function darken(string $color, int $amount = self::DEFAULT_ADJUST): string
+    public function desaturate(string $value, int $amount = 0)
     {
-        $color = self::_checkHex($color);
-        $color = $this->hexToHsl($color, true);
-
-        // Darken
-        $darkerHSL = $this->_darken($color, $amount);
-
-        // Return as HEX
-        return self::_hslToHex($darkerHSL);
+        return Factory::init($value)->desaturate($amount);
     }
 
-    /**
-     * Given a HEX value, returns a lighter color. If no desired amount provided, then the color halfway between
-     * given HEX and white will be returned.
-     *
-     * @param string $color
-     * @param int $amount
-     * @return string Lighter HEX value
-     * @throws Exception
-     */
-    public function lighten(string $color, int $amount = self::DEFAULT_ADJUST): string
+    public function grayscale(string $value)
     {
-        $color = self::_checkHex($color);
-        $color = $this->hexToHsl($color, true);
-
-        // Lighten
-        $lighterHSL = $this->_lighten($color, $amount);
-
-        // Return as HEX
-        return self::_hslToHex($lighterHSL);
+        return Factory::init($value)->grayscale();
     }
 
-    /**
-     * Given a HEX value, returns a mixed color. If no desired amount provided, then the color mixed by this ratio
-     *
-     * @param string $color
-     * @param string $hex2 Secondary HEX value to mix with
-     * @param int $amount = -100..0..+100
-     * @return string mixed HEX value
-     * @throws Exception
-     */
-    public function mix(string $color, string $hex2, int $amount = 0): string
+    public function lighten(string $value, int $amount = 10)
     {
-        $color = self::_checkHex($color);
-        $color = self::hexToRgb($color, true);
-        $rgb2 = self::hexToRgb($hex2, true);
-        $mixed = $this->_mix($color, $rgb2, $amount);
-
-        // Return as HEX
-        return self::_rgbToHex($mixed);
+        return Factory::init($value)->lighten($amount);
     }
 
-    /**
-     * Returns whether a given color is considered "light"
-     *
-     * @param string $color
-     * @param int $threshold
-     * @return bool
-     */
-    public function isLight(string $color, int $threshold = 130): bool
+    public function darken(string $value, int $amount = 10)
     {
-        $color = self::_checkHex($color);
-
-        // Get our color
-        // Calculate straight from rbg
-        $r = hexdec($color[0] . $color[1]);
-        $g = hexdec($color[2] . $color[3]);
-        $b = hexdec($color[4] . $color[5]);
-
-        return (($r * 299 + $g * 587 + $b * 114) / 1000 > $threshold);
+        return Factory::init($value)->darken($amount);
     }
 
-    /**
-     * Returns whether a given color is considered "dark"
-     *
-     * @param string $color
-     * @param int $threshold
-     * @return bool
-     * @throws Exception
-     */
-    public function isDark(string $color, int $threshold = 130): bool
+    public function brighten(string $value, int $amount = 10)
     {
-        $color = self::_checkHex($color);
-
-        // Get our color
-        // Calculate straight from rbg
-        $r = hexdec($color[0] . $color[1]);
-        $g = hexdec($color[2] . $color[3]);
-        $b = hexdec($color[4] . $color[5]);
-
-        return (($r * 299 + $g * 587 + $b * 114) / 1000 <= $threshold);
+        return Factory::init($value)->brighten($amount);
     }
 
-    /**
-     * Returns the complimentary color
-     *
-     * @param string $color
-     * @return string Complementary hex color
-     * @throws Exception
-     */
-    public function complementary(string $color): string
+    public function mix(string $value, string $value2, int $amount = 0)
     {
-        $color = self::_checkHex($color);
+        $color = Factory::init($value);
+        $color2 = Factory::init($value2);
 
-        // Get our HSL
-        $hsl = $this->hexToHsl($color, true);
+        return $color->mix($color2, $amount);
+    }
+
+    public function tint(string $value, int $amount = 0)
+    {
+        return Factory::init($value)->tint($amount);
+    }
+
+    public function shade(string $value, int $amount = 0)
+    {
+        return Factory::init($value)->shade($amount);
+    }
+
+    public function fade(string $value, int $amount = 0)
+    {
+        return Factory::init($value)->fade($amount);
+    }
+
+    public function fadeIn(string $value, int $amount = 0)
+    {
+        return Factory::init($value)->fadeIn($amount);
+    }
+
+    public function fadeOut(string $value, int $amount = 0)
+    {
+        return Factory::init($value)->fadeOut($amount);
+    }
+
+    public function complementary(string $value)
+    {
+        $originColor = Factory::init($value);
+
+        // Convert to HSLA to adjust the Hue
+        $newColor = $originColor->toHsla()->values();
 
         // Adjust Hue 180 degrees
-        $hsl['H'] += ($hsl['H'] > 180) ? -180 : 180;
+        $hue = $newColor[0];
+        $newColor[0] = (($hue + 180) > 300) ? ($hue + 180 - 300) : ($hue + 180);
 
-        // Return the new value in HEX
-        return self::_hslToHex($hsl);
+        $newColorColor = Factory::init('hsla(' . implode(',', $newColor) . ')');
+
+        // Use mix 100% to return the same format as the provided one
+        return $originColor->mix($newColorColor, 100);
     }
 
-    /**
-     * Returns an array with the input color and a slightly darkened / lightened counterpart
-     *
-     * @param string $color
-     * @param int $amount
-     * @param int $threshold
-     * @return array
-     * @throws Exception
-     */
-    public function gradientColors(string $color, int $amount = self::DEFAULT_ADJUST, int $threshold = 130): array
+    public function isLight(string $value)
     {
-        // Decide which color needs to be made
-        if ($this->isLight($color, $threshold)) {
-            $lightColor = $color;
-            $darkColor = $this->darken($color, $amount);
-        } else {
-            $lightColor = $this->lighten($color, $amount);
-            $darkColor = $color;
-        }
-
-        // Return our gradient array
-        return ["light" => $lightColor, "dark" => $darkColor];
+        return Factory::init($value)->isLight();
     }
 
-    /**
-     * Returns a string containing CSS for a gradient background
-     *
-     * @param $color
-     * @param string $direction
-     * @param int $amount
-     * @param int $threshold
-     * @return string
-     * @throws Exception
-     */
-    public function gradient($color, string $direction = 'horizontal', int $amount = self::DEFAULT_ADJUST, int $threshold = 130): string
+    public function isDark(string $value)
     {
-        if (is_string($amount)) {
-            $color = self::_checkHex($color);
-            $amount = self::_checkHex($amount);
-            $g = ['light' => '#' . $color, 'dark' => '#' . $amount];
-        } else {
-            $g = $this->gradientColors($color, $amount, $threshold);
+        return Factory::init($value)->isDark();
+    }
+
+    public function gradient($value, string $direction = 'horizontal', mixed $colors = []): string
+    {
+        $color = Factory::init($value);
+
+        if (!is_array($colors)) {
+            $colors = [$colors];
         }
 
-        $css = "";
+        foreach ($colors as $k => $v) {
+            $colors[$k] = Factory::init($v);
+        }
+
+        array_unshift($colors, $color);
+
+        $css = [];
         $radial = false;
 
-        switch ($direction) {
-            case 'horizontal':
-                $nonStandard = 'left';
-                $standard = 'to right';
-                $gType = 1;
-                break;
-            case 'diagonalDown':
-                $nonStandard = '-45deg';
-                $standard = '135deg';
-                $gType = 1;
-                break;
-            case 'diagonalUp':
-                $nonStandard = '45deg';
-                $standard = '45deg';
-                $gType = 1;
-                break;
-            case 'radial':
-                $nonStandard = 'center, ellipse cover';
-                $standard = 'ellipse at center';
-                $gType = 1;
-                $radial = true;
-                break;
-            case 'vertical':
-            default:
-                $nonStandard = 'top';
-                $standard = 'to bottom';
-                $gType = 0;
-                break;
+        if ($direction === 'horizontal') {
+            $angle = 'to right';
+        } else if ($direction === 'diagonalDown') {
+            $angle = '135deg';
+        } else if ($direction === 'diagonalUp') {
+            $angle = '45deg';
+        } else if ($direction === 'radial') {
+            $angle = 'ellipse at center';
+            $radial = true;
+        } else if ($direction === 'vertical') {
+            $angle = 'to bottom';
         }
 
-        /* fallback/image non-cover color */
-        $css .= "background-color: #" . self::_checkHex($color) . ";";
-        $css .= "filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='" . $g['light'] . "', endColorstr='" . $g['dark'] . "', GradientType={$gType});";
+        $css[] = "background-color: {$color->toHex()};";
         
         if ($radial) {
-            /* IE Browsers */
-            /* Safari 5.1+, Mobile Safari, Chrome 10+ */
-            $css .= "background: -webkit-radial-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Firefox 3.6+ OLD */
-            $css .= "background: -moz-radial-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Opera 11.10+ OLD */
-            $css .= "background: -o-radial-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Un-prefixed version (standards): FF 16+, IE10+, Chrome 26+, Safari 7+, Opera 12.1+ */
-            $css .= "background: radial-gradient({$standard}, " . $g['light'] . ", " . $g['dark'] . ");";
+            $css[] = "background: radial-gradient({$angle}, " . implode(', ', $colors) . ");";
         } else {
-            /* IE Browsers */
-            /* Safari 5.1+, Mobile Safari, Chrome 10+ */
-            $css .= "background-image: -webkit-linear-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Firefox 3.6+ OLD */
-            $css .= "background-image: -moz-linear-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Opera 11.10+ OLD */
-            $css .= "background-image: -o-linear-gradient({$nonStandard}, " . $g['light'] . ", " . $g['dark'] . ");";
-            /* Un-prefixed version (standards): FF 16+, IE10+, Chrome 26+, Safari 7+, Opera 12.1+ */
-            $css .= "background-image: linear-gradient({$standard}, " . $g['light'] . ", " . $g['dark'] . ");";
+            $css[] = "background-image: linear-gradient({$angle}, " . implode(', ', $colors) . ");";
         }
 
-        // Return our CSS
-        return $css;
+        return implode('', $css);
     }
+
 
 
     // Private Methods
     // =========================================================================
 
-    /**
-     * Given a HSL associative array returns the equivalent HEX string
-     *
-     * @param array $hsl
-     * @return string HEX string
-     * @throws Exception "Bad HSL Array"
-     */
-    private static function _hslToHex(array $hsl = []): string
+    private function _convert($function, $value, $asArray = false)
     {
-        // Make sure it's HSL
-        if (!isset($hsl["H"], $hsl["S"], $hsl["L"]) || empty($hsl)) {
-            throw new Exception("Param was not an HSL array");
-        }
+        $converted = Factory::init($value)->$function();
 
-        [$H, $S, $L] = [$hsl['H'] / 360, $hsl['S'], $hsl['L']];
-        
-        if ($S == 0) {
-            $r = $L * 255;
-            $g = $L * 255;
-            $b = $L * 255;
-        } else {
-            if ($L < 0.5) {
-                $var_2 = $L * (1 + $S);
-            } else {
-                $var_2 = ($L + $S) - ($S * $L);
+        if ($asArray) {
+            $key = $function;
+
+            // Special-case for hex/hexa as these are rgb/rgba
+            if ($key === 'toHex') {
+                $key = 'toRgb';
+            } else if ($key === 'toHexa') {
+                $key = 'toRgba';
             }
 
-            $var_1 = 2 * $L - $var_2;
-            $r = round(255 * self::_hueToRgb($var_1, $var_2, $H + (1 / 3)));
-            $g = round(255 * self::_hueToRgb($var_1, $var_2, $H));
-            $b = round(255 * self::_hueToRgb($var_1, $var_2, $H - (1 / 3)));
+            $key = str_split(strtolower(str_replace('to', '', $key)));
+
+            // Return values indexed by their function, so [r][g][b][a] instead of [0][1][2][3]
+            return array_combine($key, $converted->values());
         }
 
-        // Convert to hex
-        $r = dechex($r);
-        $g = dechex($g);
-        $b = dechex($b);
-
-        // Make sure we get 2 digits for decimals
-        $r = (strlen($r) === 1) ? "0" . $r : $r;
-        $g = (strlen($g) === 1) ? "0" . $g : $g;
-        $b = (strlen($b) === 1) ? "0" . $b : $b;
-
-        return '#' . $r . $g . $b;
-    }
-
-    /**
-     * Given an RGB associative array returns the equivalent HEX string
-     *
-     * @param array $rgb
-     * @return string RGB string
-     * @throws Exception "Bad RGB Array"
-     */
-    private static function _rgbToHex(array $rgb = []): string
-    {
-        // Make sure it's RGB
-        if (!isset($rgb["R"], $rgb["G"], $rgb["B"]) || empty($rgb)) {
-            throw new Exception("Param was not an RGB array");
-        }
-
-        // Convert RGB to HEX
-        $hex[0] = dechex($rgb['R']);
-        $hex[1] = dechex($rgb['G']);
-        $hex[2] = dechex($rgb['B']);
-
-        // Make sure we get 2 digits for decimals
-        $hex[0] = (strlen($hex[0]) === 1) ? "0" . $hex[0] : $hex[0];
-        $hex[1] = (strlen($hex[1]) === 1) ? "0" . $hex[1] : $hex[1];
-        $hex[2] = (strlen($hex[2]) === 1) ? "0" . $hex[2] : $hex[2];
-
-        return '#' . implode('', $hex);
-    }
-
-    /**
-     * Darkens a given HSL array
-     *
-     * @param array $hsl
-     * @param int $amount
-     * @return array $hsl
-     */
-    private function _darken(array $hsl, int $amount = self::DEFAULT_ADJUST): array
-    {
-        // Check if we were provided a number
-        if ($amount) {
-            $hsl['L'] = ($hsl['L'] * 100) - $amount;
-            $hsl['L'] = ($hsl['L'] < 0) ? 0 : $hsl['L'] / 100;
-        } else {
-            // We need to find out how much to darken
-            $hsl['L'] /= 2;
-        }
-
-        return $hsl;
-    }
-
-    /**
-     * Lightens a given HSL array
-     *
-     * @param array $hsl
-     * @param int $amount
-     * @return array $hsl
-     */
-    private function _lighten(array $hsl, int $amount = self::DEFAULT_ADJUST): array
-    {
-        // Check if we were provided a number
-        if ($amount) {
-            $hsl['L'] = ($hsl['L'] * 100) + $amount;
-            $hsl['L'] = ($hsl['L'] > 100) ? 1 : $hsl['L'] / 100;
-        } else {
-            // We need to find out how much to lighten
-            $hsl['L'] += (1 - $hsl['L']) / 2;
-        }
-
-        return $hsl;
-    }
-
-    /**
-     * Mix 2 rgb colors and return an rgb color
-     *
-     * @param array $rgb1
-     * @param array $rgb2
-     * @param int $amount ranged -100..0..+100
-     * @return array $rgb
-     *
-     *    ported from http://phpxref.pagelines.com/nav.html?includes/class.colors.php.source.html
-     */
-    private function _mix(array $rgb1, array $rgb2, int $amount = 0): array
-    {
-        $r1 = ($amount + 100) / 100;
-        $r2 = 2 - $r1;
-
-        $rmix = (($rgb1['R'] * $r1) + ($rgb2['R'] * $r2)) / 2;
-        $gmix = (($rgb1['G'] * $r1) + ($rgb2['G'] * $r2)) / 2;
-        $bmix = (($rgb1['B'] * $r1) + ($rgb2['B'] * $r2)) / 2;
-
-        return ['R' => $rmix, 'G' => $gmix, 'B' => $bmix];
-    }
-
-    /**
-     * Given a Hue, returns corresponding RGB value
-     *
-     * @param float $v1
-     * @param float $v2
-     * @param float $vH
-     * @return int
-     */
-    private static function _hueToRgb(float $v1, float $v2, float $vH)
-    {
-        if ($vH < 0) {
-            ++$vH;
-        }
-
-        if ($vH > 1) {
-            --$vH;
-        }
-
-        if ((6 * $vH) < 1) {
-            return ($v1 + ($v2 - $v1) * 6 * $vH);
-        }
-
-        if ((2 * $vH) < 1) {
-            return $v2;
-        }
-
-        if ((3 * $vH) < 2) {
-            return ($v1 + ($v2 - $v1) * ((2 / 3) - $vH) * 6);
-        }
-
-        return $v1;
-    }
-
-    /**
-     * You need to check if you were given a good hex string
-     *
-     * @param string $hex
-     * @return string Color
-     * @throws Exception
-     */
-    private static function _checkHex(string $hex): string
-    {
-        // Strip # sign is present
-        $color = str_replace("#", "", $hex);
-
-        // Make sure it's 6 digits
-        if (strlen($color) == 3) {
-            $color = $color[0] . $color[0] . $color[1] . $color[1] . $color[2] . $color[2];
-        } else if (strlen($color) != 6) {
-            throw new Exception("HEX color needs to be 6 or 3 digits long, received: " . $color);
-        }
-
-        return $color;
+        return $converted;
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "verbb/color-mixer",
-    "description": "A set of Twig filters for modifying hex colors in Craft 3. Ported from https://github.com/ethercreative/colormixer",
+    "description": "A set of Twig filters for modifying hex colors in Craft CMS.",
     "type": "craft-plugin",
     "version": "2.0.0",
     "keywords": [

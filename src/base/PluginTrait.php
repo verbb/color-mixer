@@ -1,53 +1,33 @@
 <?php
 namespace verbb\colormixer\base;
 
-use Craft;
+use verbb\colormixer\ColorMixer;
 
-use yii\log\Logger;
-
-use verbb\base\BaseHelper;
+use verbb\base\LogTrait;
+use verbb\base\helpers\Plugin;
 
 trait PluginTrait
 {
-    // Static Properties
+    // Properties
     // =========================================================================
 
-    public static $plugin;
+    public static ?ColorMixer $plugin = null;
 
 
-    // Public Methods
+    // Traits
     // =========================================================================
 
-    public static function log($message, $attributes = []): void
-    {
-        if ($attributes) {
-            $message = Craft::t('color-mixer', $message, $attributes);
-        }
-
-        Craft::getLogger()->log($message, Logger::LEVEL_INFO, 'color-mixer');
-    }
-
-    public static function error($message, $attributes = []): void
-    {
-        if ($attributes) {
-            $message = Craft::t('color-mixer', $message, $attributes);
-        }
-
-        Craft::getLogger()->log($message, Logger::LEVEL_ERROR, 'color-mixer');
-    }
+    use LogTrait;
 
 
-    // Private Methods
+    // Static Methods
     // =========================================================================
 
-    private function _setPluginComponents(): void
+    public static function config(): array
     {
-        BaseHelper::registerModule();
-    }
+        Plugin::bootstrapPlugin('color-mixer');
 
-    private function _setLogging(): void
-    {
-        BaseHelper::setFileLogging('color-mixer');
+        return [];
     }
 
 }

@@ -1,5 +1,5 @@
 # Color Mixer plugin for Craft CMS
-<img width="500" src="https://verbb.imgix.net/plugins/color-mixer/color-mixer-social-card.png?v=1">
+<img width="500" src="https://verbb.imgix.net/plugins/color-mixer/color-mixer-social-card.png?v=2">
 
 Color Mixer is a Craft CMS plugin for modifying colors in Twig templates. Use filters and functions to modify and manipulate color values and generate valid CSS that can be used in your templates.
 

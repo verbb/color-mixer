@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1 - 2025-07-18
+
+### Changed
+- Misc cleanup.
+
 ## 3.0.0 - 2022-06-25
 
 ### Added

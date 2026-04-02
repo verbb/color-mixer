@@ -12,6 +12,7 @@ Color Mixer supports converting between the following color formats.
 - RGB (`toRgb`)
 - RGBA (`toRgba`)
 - CMYK (`toCmyk`)
+- OKLCH (`toOklch`)
 
 Each `to*` method supports the following arguments:
 - `asArray` - `true` or `false` as to whether to return values as an array. Default `false`.
@@ -34,6 +35,12 @@ Hex to CMYK (percent values per channel, `0–100`):
 {{ '#ff00ff' | toCmyk }} {# cmyk(0,100,0,0) #}
 ```
 
+Hex to OKLCH (lightness `0–100`, chroma `0–0.5`, hue `0–360`; string form matches Iris):
+
+```twig
+{{ '#ff00ff' | toOklch }} {# e.g. oklch(70.17% 0.3225 328.36) #}
+```
+
 RGB to HSL:
 
 ```twig
@@ -51,6 +58,15 @@ You can also retrieve an array of individual values instead of a string:
 {{ color.b }} {# 255 #}
 ```
 
+For OKLCH, `asArray` uses keys `l` (lightness), `c` (chroma), and `h` (hue):
+
+```twig
+{% set ok = '#ff00ff' | toOklch(true) %}
+{{ ok.l }} {# lightness 0–100 #}
+{{ ok.c }} {# chroma #}
+{{ ok.h }} {# hue degrees #}
+```
+
 Of course, you can convert between multiple different color types. Color Mixer expects values in the following formats:
 
 ```twig
@@ -62,6 +78,7 @@ Of course, you can convert between multiple different color types. Color Mixer e
 {% set rgb = 'rgb(255, 0, 255)' %}
 {% set rgba = 'rgba(255, 0, 255, 0.33)' %}
 {% set cmyk = 'cmyk(0, 100, 0, 0)' %}
+{% set oklch = 'oklch(60, 0.2, 300)' %}
 ```
 
 After which you can interchangably supply them to any of the conversion methods. For example, if you wanted to convert a Hex color to every supported color type: 
@@ -75,6 +92,7 @@ toHsv: {{ hex | toHsv }}
 toRgb: {{ hex | toRgb }}
 toRgba: {{ hex | toRgba }}
 toCmyk: {{ hex | toCmyk }}
+toOklch: {{ hex | toOklch }}
 ```
 
 Additionally, you might like to strip out the "type" denotions for the color. To explain, refer to the below table:
@@ -89,6 +107,7 @@ Type | With Type | Without Type
 | RGB | `rgb(255, 0, 255)` | `255, 0, 255`
 | RGBA | `rgba(255, 0, 255, 0.33)` | `255, 0, 255, 0.33`
 | CMYK | `cmyk(0, 100, 0, 0)` | `0, 100, 0, 0`
+| OKLCH | `oklch(70.17% 0.3225 328.36)` | `70.17% 0.3225 328.36` (spacing per Iris output)
 
 To do this, you can use the `rawColor` Twig filter, after a conversion, or standalone.
 

@@ -30,6 +30,7 @@ class Extension extends AbstractExtension
             new TwigFilter('toRgb', [$this, 'toRgb']),
             new TwigFilter('toRgba', [$this, 'toRgba']),
             new TwigFilter('toCmyk', [$this, 'toCmyk']),
+            new TwigFilter('toOklch', [$this, 'toOklch']),
             new TwigFilter('rawColor', [$this, 'rawColor']),
 
             // Manipulation
@@ -91,10 +92,15 @@ class Extension extends AbstractExtension
         return $this->_convert('toCmyk', $value, $asArray);
     }
 
+    public function toOklch(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toOklch', $value, $asArray);
+    }
+
     public function rawColor(mixed $value)
     {
         if (!is_array($value)) {
-            return str_replace(['#', 'hsl(', 'hsla(', 'hsv(', 'rgb(', 'rgba(', 'cmyk(', ')'], '', $value);
+            return str_replace(['#', 'hsl(', 'hsla(', 'hsv(', 'rgb(', 'rgba(', 'cmyk(', 'oklch(', ')'], '', $value);
         }
     }
 
@@ -206,7 +212,12 @@ class Extension extends AbstractExtension
                 $key = 'toRgba';
             }
 
-            $key = str_split(strtolower(str_replace('to', '', $key)));
+            // OKLCH has three components; "oklch" would str_split to five letters
+            if ($key === 'toOklch') {
+                $key = ['l', 'c', 'h'];
+            } else {
+                $key = str_split(strtolower(str_replace('to', '', $key)));
+            }
 
             // Return values indexed by their function, so [r][g][b][a] instead of [0][1][2][3]
             return array_combine($key, $converted->values());

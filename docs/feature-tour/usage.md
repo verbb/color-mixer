@@ -11,6 +11,7 @@ Color Mixer supports converting between the following color formats.
 - HSV (`toHsv`)
 - RGB (`toRgb`)
 - RGBA (`toRgba`)
+- CMYK (`toCmyk`)
 
 Each `to*` method supports the following arguments:
 - `asArray` - `true` or `false` as to whether to return values as an array. Default `false`.
@@ -25,6 +26,12 @@ Hex to RGBA:
 
 ```twig
 {{ '#ff00ff' | toRgba }} {# rgba(255, 0, 255, 1) #}
+```
+
+Hex to CMYK (percent values per channel, `0–100`):
+
+```twig
+{{ '#ff00ff' | toCmyk }} {# cmyk(0,100,0,0) #}
 ```
 
 RGB to HSL:
@@ -54,6 +61,7 @@ Of course, you can convert between multiple different color types. Color Mixer e
 {% set hsv = 'hsv(300, 100%, 100%)' %}
 {% set rgb = 'rgb(255, 0, 255)' %}
 {% set rgba = 'rgba(255, 0, 255, 0.33)' %}
+{% set cmyk = 'cmyk(0, 100, 0, 0)' %}
 ```
 
 After which you can interchangably supply them to any of the conversion methods. For example, if you wanted to convert a Hex color to every supported color type: 
@@ -66,6 +74,7 @@ toHsla: {{ hex | toHsla }}
 toHsv: {{ hex | toHsv }}
 toRgb: {{ hex | toRgb }}
 toRgba: {{ hex | toRgba }}
+toCmyk: {{ hex | toCmyk }}
 ```
 
 Additionally, you might like to strip out the "type" denotions for the color. To explain, refer to the below table:
@@ -79,6 +88,7 @@ Type | With Type | Without Type
 | HSV | `hsv(300, 100%, 100%)` | `300, 100%, 100%`
 | RGB | `rgb(255, 0, 255)` | `255, 0, 255`
 | RGBA | `rgba(255, 0, 255, 0.33)` | `255, 0, 255, 0.33`
+| CMYK | `cmyk(0, 100, 0, 0)` | `0, 100, 0, 0`
 
 To do this, you can use the `rawColor` Twig filter, after a conversion, or standalone.
 

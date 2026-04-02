@@ -29,6 +29,7 @@ class Extension extends AbstractExtension
             new TwigFilter('toHsv', [$this, 'toHsv']),
             new TwigFilter('toRgb', [$this, 'toRgb']),
             new TwigFilter('toRgba', [$this, 'toRgba']),
+            new TwigFilter('toCmyk', [$this, 'toCmyk']),
             new TwigFilter('rawColor', [$this, 'rawColor']),
 
             // Manipulation
@@ -85,10 +86,15 @@ class Extension extends AbstractExtension
         return $this->_convert('toRgba', $value, $asArray);
     }
 
+    public function toCmyk(string $value, bool $asArray = false)
+    {
+        return $this->_convert('toCmyk', $value, $asArray);
+    }
+
     public function rawColor(mixed $value)
     {
         if (!is_array($value)) {
-            return str_replace(['#', 'hsl(', 'hsla(', 'hsv(', 'rgb(', 'rgba(', ')'], '', $value);
+            return str_replace(['#', 'hsl(', 'hsla(', 'hsv(', 'rgb(', 'rgba(', 'cmyk(', ')'], '', $value);
         }
     }
 

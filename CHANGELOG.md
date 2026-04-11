@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.1.0 - 2026-04-11
+
+### Added
+- Add `toOklch` Twig filter for OKLCH conversion.
+- Add `toCmyk` Twig filter for CMYK conversion.
+
+### Changed
+- Bump `ozdemirburak/iris:^4.0`.
+
 ## 4.0.0 - 2024-05-11
 
 ### Changed

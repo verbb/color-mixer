@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.1 - 2026-04-16
+
+### Changed
+- Fix incorrect version tagged.
+
 ## 4.1.0 - 2026-04-11
 
 ### Added

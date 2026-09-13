@@ -1,5 +1,12 @@
 # Usage
-Color Mixer provide a number of Twig filters to use, for a variety of different use-cases.
+Color Mixer converts and adjusts colour values in Twig. For example, if a component needs an RGB colour from a stored hex value, use `toRgb` when building its style:
+
+```twig
+{% set accent = '#ff00ff' %}
+<p style="color: {{ accent | toRgb }}">Studio News</p>
+```
+
+The rendered style is `color: rgb(255, 0, 255)`. Start with a valid colour value; the sections below show how to convert it or change individual colour characteristics.
 
 ### Conversion
 Color Mixer supports converting between the following color formats.

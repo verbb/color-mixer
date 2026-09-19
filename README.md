@@ -4,7 +4,7 @@
 Color Mixer is a Craft CMS plugin for modifying colors in Twig templates. Use filters and functions to modify and manipulate color values and generate valid CSS that can be used in your templates.
 
 ## Features
-- Convert color values from Hex, HSL, RGB, RGBA and more
+- Convert color values between Hex, HSL, RGB, RGBA, OKLCH, CMYK and more.
 - Saturate or Desaturate colors by a set amount.
 - Lighten and darken colors by a set amount.
 - Mix, tint and shade colors by a set amount.

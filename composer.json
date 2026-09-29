@@ -1,6 +1,6 @@
 {
     "name": "verbb/color-mixer",
-    "description": "A set of Twig filters for modifying colors.",
+    "description": "A Craft CMS plugin with Twig filters for converting and transforming colour values.",
     "type": "craft-plugin",
     "version": "4.1.2",
     "keywords": [

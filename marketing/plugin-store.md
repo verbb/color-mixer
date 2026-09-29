@@ -4,10 +4,9 @@ Take a colour stored in Craft and derive the variants your template needs at ren
 
 ## Features
 
-- **Format conversion:** Convert Hex, HSL, RGB, RGBA, OKLCH, CMYK, and other colour formats without manual parsing in Twig.
-- **Lighten and darken:** Derive brighter or deeper variants by a controlled amount.
-- **Tint and shade:** Blend towards white or black for a related colour scale.
-- **Mix colours:** Combine two values to create a deliberate intermediate colour.
-- **Fade values:** Adjust opacity and return a value suitable for translucent CSS.
-- **Light or dark checks:** Choose an appropriate treatment based on the perceived brightness of a colour.
-- **Common colour formats:** Convert between Hex, HSL, RGB, RGBA, OKLCH, CMYK, and related representations before passing the result to CSS or another template operation. Helpers can also determine whether a colour is broadly light or dark for contrast decisions.
+- Convert Hex, HSL, RGB, RGBA, OKLCH, CMYK, and other colour formats without manual parsing in Twig.
+- Derive brighter or deeper variants by a controlled amount.
+- Blend towards white or black for a related colour scale.
+- Combine two values to create a deliberate intermediate colour.
+- Adjust opacity and return a value suitable for translucent CSS.
+- Choose an appropriate treatment based on the perceived brightness of a colour.

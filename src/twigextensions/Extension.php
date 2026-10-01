@@ -208,7 +208,7 @@ class Extension extends AbstractExtension
             // Special-case for hex/hexa as these are rgb/rgba
             if ($key === 'toHex') {
                 $key = 'toRgb';
-            } else if ($key === 'toHexa') {
+            } elseif ($key === 'toHexa') {
                 $key = 'toRgba';
             }
 

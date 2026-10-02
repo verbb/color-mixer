@@ -2,7 +2,7 @@
 namespace verbb\colormixer;
 
 use verbb\colormixer\base\PluginTrait;
-use verbb\colormixer\twigextensions\Extension;
+use verbb\colormixer\web\twig\Extension;
 
 use Craft;
 use craft\base\Plugin;

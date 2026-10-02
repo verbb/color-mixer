@@ -1,5 +1,5 @@
 <?php
-namespace verbb\colormixer\twigextensions;
+namespace verbb\colormixer\web\twig;
 
 use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;

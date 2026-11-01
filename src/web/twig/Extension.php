@@ -176,7 +176,7 @@ class Extension extends AbstractExtension
 
         // Adjust Hue 180 degrees
         $hue = $newColor[0];
-        $newColor[0] = (($hue + 180) > 300) ? ($hue + 180 - 300) : ($hue + 180);
+        $newColor[0] = (($hue + 180) >= 360) ? ($hue + 180 - 360) : ($hue + 180);
 
         $newColorColor = Factory::init('hsla(' . implode(',', $newColor) . ')');
 

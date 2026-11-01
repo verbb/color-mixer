@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.1.3 - 2026-11-01
 
 ### Fixed
 - Fixed the `complementary` filter returning the wrong color for hues above 120°.
